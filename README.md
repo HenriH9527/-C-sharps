@@ -592,3 +592,675 @@ namespace OperatorsAppl
 | ? :      | 条件表达式                             | 如果条件为真 ? 则为 X : 否则为 Y                             |
 | is       | 判断对象是否为某一类型。               | If( Ford is Car) // 检查 Ford 是否是 Car 类的一个对象。      |
 | as       | 强制转换，即使转换失败也不会抛出异常。 | Object obj = new StringReader("Hello"); StringReader r = obj as StringReader; |
+
+------
+
+#### C#判断语句
+
+| 语句                                                         | 描述                                                         |
+| :----------------------------------------------------------- | :----------------------------------------------------------- |
+| [if 语句](https://www.runoob.com/csharp/csharp-if.html)      | 一个 **if 语句** 由一个布尔表达式后跟一个或多个语句组成。    |
+| [if...else 语句](https://www.runoob.com/csharp/csharp-if-else.html) | 一个 **if 语句** 后可跟一个可选的 **else 语句**，else 语句在布尔表达式为假时执行。 |
+| [嵌套 if 语句](https://www.runoob.com/csharp/csharp-nested-if.html) | 您可以在一个 **if** 或 **else if** 语句内使用另一个 **if** 或 **else if** 语句。 |
+| [switch 语句](https://www.runoob.com/csharp/csharp-switch.html) | 一个 **switch** 语句允许测试一个变量等于多个值时的情况。     |
+| [嵌套 switch 语句](https://www.runoob.com/csharp/csharp-nested-switch.html) | 您可以在一个 **switch** 语句内使用另一个 **switch** 语句。   |
+
+#### ? : 运算符
+
+```c#
+Exp1 ? Exp2 : Exp3;
+```
+
+------
+
+#### C#循环
+
+| 循环类型                                                     | 描述                                                         |
+| :----------------------------------------------------------- | :----------------------------------------------------------- |
+| [while 循环](https://www.runoob.com/csharp/csharp-while-loop.html) | 当给定条件为真时，重复语句或语句组。它会在执行循环主体之前测试条件。 |
+| [for/foreach 循环](https://www.runoob.com/csharp/csharp-for-loop.html) | 多次执行一个语句序列，简化管理循环变量的代码。               |
+| [do...while 循环](https://www.runoob.com/csharp/csharp-do-while-loop.html) | 除了它是在循环主体结尾测试条件外，其他与 while 语句类似。    |
+| [嵌套循环](https://www.runoob.com/csharp/csharp-nested-loops.html) | 您可以在 while、for 或 do..while 循环内使用一个或多个循环。  |
+
+
+
+#### 循环控制语句
+
+| [break 语句](https://www.runoob.com/csharp/csharp-break-statement.html) | 终止 **loop** 或 **switch** 语句，程序流将继续执行紧接着 loop 或 switch 的下一条语句。 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [continue 语句](https://www.runoob.com/csharp/csharp-continue-statement.html) | 引起循环跳过主体的剩余部分，立即重新开始测试条件。           |
+
+
+
+------
+
+#### C#  封装
+
+> **封装** 被定义为"把一个或多个项目封闭在一个物理的或者逻辑的包中"。在面向对象程序设计方法论中，封装是为了防止对实现细节的访问。
+
+一个 **访问修饰符** 定义了一个类成员的范围和可见性。C# 支持的访问修饰符如下所示：
+
+- public: 　所有对象都可以访问
+- private:　对象本身在对象内部可以访问
+- protected:  只有该类对象及其子类对象可以访问
+- internal:   同一个程序集的对象可以访问
+- protected internal:  访问限于当前程序集或派生自包含类的类型
+
+
+
+#### Public 访问修饰符
+
+> Public 访问修饰符允许一个类将其成员变量和成员函数暴露给其他的函数和对象。任何公有成员可以被外部的类访问。
+
+
+
+```c#
+using System;
+
+namespace RectangleApplication
+{
+    class Rectangle
+    {
+		//成员数量
+        public double length;
+        public double width;
+        
+        public double GetArea()
+        {
+            return length * width;
+        }
+        public void Display()
+        {
+            Console.WriteLine("长度：{0}", length);
+        }
+    }
+    
+    class ExcuteRectangle
+    {
+        static void Main(string[] args)
+        {
+            Rectangle r = new Rectangle();
+            r.length = 4.5;
+            r.Display();
+            Console.ReadLine();
+        }
+    }
+}
+```
+
+
+
+在上面的实例中，成员变量 `length`  `width`  被声明为 `public` ，所以它们可以被函数 `Main()`  使用 `Rectangle` 类的实例 `r`  访问。
+
+成员函数 `Display()`  和 `GetArea()`  可以直接访问这些变量。
+
+成员函数 `Display()`  也被声明为 `public` ，所以它也能被 `Main()` 使用 `Rectangle` 类的实例 `r`  访问
+
+
+
+#### Private 访问修饰符
+
+> Private 访问修饰符允许一个类将其成员变量和成员函数对其他的函数和对象进行隐藏。只有同一个类中的函数可以访问它的私有成员。即使是类的实例也不能访问它的私有成员。
+
+
+
+```c#
+using System;
+
+namespace ReactangleApplication
+{
+    class Rectangle
+    {
+            //成员变量
+        pricate double width;
+
+        public void Acceptdetails()
+        {
+            Console.WriteLine("请输入长度：")
+            length = Convert.ToDouble(Console.ReadLine());
+        }
+
+        public double GetArea()
+        {
+            return length * width;
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("长度： {0}", length);
+        }
+    }
+    
+    class ExcuteRectangle
+    {
+        static void Main(string[] args)
+        {
+            Rectangle r = new Rectangle();
+            r.Acceptdetails();
+            r.Display();
+            Console.Readline();
+        }
+    }
+   
+}
+```
+
+
+
+在上面的实例中，成员变量 length 和 width 被声明为 **private**，所以它们不能被函数 Main() 访问。
+
+成员函数 *AcceptDetails()* 和 *Display()* 可以访问这些变量。
+
+由于成员函数 *AcceptDetails()* 和 *Display()* 被声明为 **public**，所以它们可以被 *Main()* 使用 Rectangle 类的实例 **r** 访问
+
+
+
+#### Protected 访问修饰符
+
+> Protected 访问修饰符允许子类访问它的基类的成员变量和成员函数。这样有助于实现继承。
+
+
+
+#### Internal 访问修饰符
+
+> Internal 访问说明符允许一个类将其成员变量和成员函数暴露给当前程序中的其他函数和对象。换句话说，带有 internal 访问修饰符的任何成员可以被定义在该成员所定义的应用程序内的任何类或方法访问。
+
+
+
+```c#
+using System;
+
+namespace ReactangleApplication
+{
+    class Rectangle
+    {
+            //成员变量
+        internal double length;
+
+        double GetArea()
+        {
+            return length * 2;
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("长度： {0}", length);
+        }
+    }
+    
+    class ExcuteRectangle
+    {
+        static void Main(string[] args)
+        {
+            Rectangle r = new Rectangle();
+            r.length = 4.5;
+            r.Display();
+            Console.ReadLine();
+        }
+    }
+}
+```
+
+
+
+在上面的实例中，请注意成员函数 *GetArea()* 声明的时候不带有任何访问修饰符。如果没有指定访问修饰符，则使用类成员的默认访问修饰符，即为 **private**。
+
+
+
+## Protected Internal 访问修饰符
+
+Protected Internal 访问修饰符允许在本类,派生类或者包含该类的程序集中访问。这也被用于实现继承。
+
+------
+
+
+
+#### C# 方法
+
+一个方法是把一些相关的语句组织在一起，用来执行一个任务的语句块。<u>每一个 C# 程序至少有一个带有 Main 方法的类。</u>
+
+要使用一个方法，您需要：
+
+- 定义方法
+- 调用方法
+
+#### C# 中定义方法
+
+```c#
+<Access specifier> <Return Type> <Method Name>(Parameter List)
+{
+    Method Body
+}
+```
+
+
+
+下面是方法的各个元素：
+
+- Access Specifier: 访问修饰符，这个决定了变量或方法对于另一个类的可见性
+- Return type: 返回类型，一个方法可以返回一个值。返回类型是方法返回的值得数据类型。如果方法不返回任何值，则返回类型为 void
+- Method name: 方法名称，是一个唯一的标识符，且是大小写敏感的，他不能与类中声明的其他标识符相同
+- Parameter list:  参数列表，使用圆括号括起来，该参数是用来传递和接受方法的数据。参数列表是指方法的参数类型、顺序和数量。参数是可选的，也就是说，一个方法可能不包含参数。
+- Method body:  方法主体，包含了完成任务所需的指令集
+
+
+
+定义方法：
+
+```c#
+class NumberManipulator
+{
+    public int FindMax(int num1, int num2)
+    {
+        //局部变量声明
+        int result;
+        
+        if (num1 > num2)
+            result = num1;
+        else
+            result = num2;
+        return result;
+    }
+}
+```
+
+
+
+调用方法：
+
+```c#
+using System;
+
+namespace CalculatorApplication
+{
+    class NumberManipulator
+    {
+        public int FindMax(int num1, int num2)
+        {
+            //局部变量
+            int result;
+            
+            if(num1 > num2)
+                result = num1;
+            else
+                result = num2;
+            return result;
+        }
+        
+        static void Main(string[] args)
+        {
+            //局部变量
+            int a = 100;
+            int b = 200;
+            int ret;
+            NumberManipulator n = new NumberManipulator();
+            
+            //调用 FindMax  方法
+            ret = n.FindMax(a, b);
+            Console.WriteLine("最大值是： {0}", ret);
+            Console.ReadLine();
+        }
+    }
+}
+```
+
+
+
+#### 递归方法调用
+
+```c#
+using System;
+
+namespace CalculatorApplication
+{
+    class NumberManipulator
+    {
+        public int factorial(int num)
+        {
+            //局部变量定义
+            int result;
+            
+            if (num == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                result = factorial(num - 1) * num;
+                return result;
+            }
+        }
+        
+        static void Main(string[] args)
+        {
+            NumberManipulator n = new NumberManipulator();
+            
+            //调用 factorial 方法
+            Console.WriteLine("6 的阶乘是： {0}"， n.factorial(6));
+            Console.WriteLine("6 的阶乘是： {0}"， n.factorial(7));
+            Console.ReadLine();
+        }
+    }
+}
+```
+
+
+
+#### 参数传递
+
+三种传递方式
+
+| 方式     | 描述                                                         |
+| :------- | :----------------------------------------------------------- |
+| 值参数   | 这种方式复制参数的实际值给函数的形式参数，实参和形参使用的是两个不同内存中的值。在这种情况下，当形参的值发生改变时，不会影响实参的值，从而保证了实参数据的安全。 |
+| 引用参数 | 这种方式复制参数的内存位置的引用给形式参数。这意味着，当形参的值发生改变时，同时也改变实参的值。 |
+| 输出参数 | 这种方式可以返回多个值。                                     |
+
+
+
+## 按值传递参数
+
+这是参数传递的默认方式。在这种方式下，当调用一个方法时，会为每个值参数创建一个新的存储位置。
+
+实际参数的值会复制给形参，实参和形参使用的是两个不同内存中的值。所以，当形参的值发生改变时，不会影响实参的值，从而保证了实参数据的安全
+
+
+
+```c#
+using System;
+
+namespace CalculatorApplication
+{
+    public void swap(int x, int y)
+    {
+        int temp;
+        
+        temp = x;
+        x = y;
+        y = temp;
+    }
+    
+    static void Main(string[] args)
+    {
+        NumberManipulator n = new NumberManipulator();
+        //局部变量
+        int a = 100;
+        int b = 200;
+        
+        Console.WriteLine("在交换之前， a 的值： {0}"，a);
+        Console.WriteLine("在交换之前， b 的值： {0}", b);
+        
+        //调用函数来交换值
+        n.swap(a, b);
+        
+        Console.WriteLine("在交换之后， a 的值： {0}"，a);
+        Console.WriteLine("在交换之后， b 的值： {0}", b);
+        
+        Console.ReadLine();
+        
+        /*
+        在交换之前，a 的值：100
+        在交换之前，b 的值：200
+        在交换之后，a 的值：100
+        在交换之后，b 的值：200
+        */
+        
+    }
+}
+```
+
+结果表明，即使在函数内改变了值，值也没有发生任何的变化
+
+
+
+#### 按引用传递参数
+
+引用参数是一个对变量的**内存位置的引用**。当按引用传递参数时，与值参数不同的是，它不会为这些参数创建一个新的存储位置。引用参数表示与提供给方法的实际参数具有相同的内存位置。
+
+
+
+**在 C# 中，使用 ref 关键字声明引用参数。**
+
+
+
+```c#
+using System;
+
+namespace CalculatorApplication
+{
+    class NumberManipulator
+    {
+        public void swap(ref int x, ref int y)
+        {
+            int temp;
+            
+            temp = x;
+            x = y;
+            y = temp;
+        }
+    }
+    
+    static void Main(string[] args)
+    {
+        NumberManipulator n = new NumberManipulator();
+        
+        int a = 100;
+        int b = 200;
+        Console.WriteLine("在交换之前，a 的值： {0}", a);
+        Console.WriteLine("在交换之前，b 的值： {0}", b);
+        
+        //调用函数来交换值
+        n.swap(ref a, ref b);
+        
+        Console.WriteLine("在交换之后，a 的值： {0}", a);
+        Console.WriteLine("在交换之后，b 的值： {0}", b);
+        
+        Console.ReadLine();
+    }
+}
+
+/*
+
+交换之前，a 的值：100
+在交换之前，b 的值：200
+在交换之后，a 的值：200
+在交换之后，b 的值：100
+
+*/
+
+
+```
+
+结果表明，*swap* 函数内的值改变了，且这个改变可以在 *Main* 函数中反映出来。
+
+
+
+#### 按输出传递参数
+
+return 语句可用于只从函数中返回一个值。但是，可以使用 **输出参数** 来从函数中返回两个值。输出参数会把方法输出的数据赋给自己，其他方面与引用参数相似。
+
+
+
+```c#
+using System;
+
+namespace CalculatorApplication
+{
+    class NumberManipulator
+    {
+        public void getValue(out int x)
+        {
+            int temp = 5;
+            x = temp;
+        }
+        
+        static void Main(string[] args)
+        {
+            NumberManipulator n = new NumberManipulator();
+            
+            //局部变量
+            int a = 100;
+            
+            Console.WriteLine("在方法调用之前， a的值为： {0}", a);
+            
+            //调用函数来获取值
+            n.getValue(out a);
+            
+            Console.WriteLine("在方法调用之后， a 的值为 {0}", a);
+            Console.ReadLine();
+        }
+    }
+}
+
+//在方法调用之前，a 的值： 100
+//在方法调用之后，a 的值： 5
+```
+
+
+
+提供给输出参数的变量不需要赋值。当需要从一个参数没有指定初始值的方法中返回值时，输出参数特别有用。
+
+```c#
+using System;
+
+namespace CalculatorApplication
+{
+    class NumberManipulator
+    {
+    	public void getValues(out int x, out int y)
+        {
+            Console.WriteLine("请输入第一个值是：");
+            x = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("请输入第二个值是：");
+            y = Convert.ToInt32(Console.ReadLine());
+        }
+        
+        static void Main(string[] args)
+        {
+            NumberManipulator n = new NumberManipulator();
+            int a, b;
+            
+            //调用函数来获取值
+            n.getValues(out a, out b);
+            
+            Console.WriteLine("在方法调用之后，a 的值： {0}", a);
+            Console.WriteLine("在方法调用之后，b 的值： {0}", b);
+            Console.ReadLine();
+        }
+    }
+}
+/*
+    请输入第一个值：
+    7
+    请输入第二个值：
+    8
+    在方法调用之后，a 的值： 7
+    在方法调用之后，b 的值： 8
+*/
+```
+
+
+
+------
+
+#### C# 可空类型（Nullable）
+
+##### C#单问号 `?`  与 双问号 `??`
+
+`?`  :  单问号用于对 int,double,bool 等无法直接赋值为 null 的数据类型进行 null 的赋值，意思是这个数据类型是 NullAble 类型的。
+
+```c#
+int? i = 3;
+//等同于
+Nullable<int> i = new Nullable<int>(3);
+
+int i;  //默认值为0
+int? ii; // 默认值为 null
+```
+
+
+
+`??` : 双问号 可用于判断一个变量在为 null 时返回一个指定的值。
+
+
+
+#### C# 可空类型（Nullable）
+
+C# 提供了一个特殊的数据类型，**nullable** 类型（可空类型），可空类型可以表示其基础值类型正常范围内的值，再加上一个 null 值。
+
+例如，Nullable< Int32 >，读作"可空的 Int32"，可以被赋值为 -2,147,483,648 到 2,147,483,647 之间的任意值，也可以被赋值为 null 值。类似的，Nullable< bool > 变量可以被赋值为 true 或 false 或 null。
+
+在处理数据库和其他包含可能未赋值的元素的数据类型时，将 null 赋值给数值类型或布尔型的功能特别有用。例如，数据库中的布尔型字段可以存储值 true 或 false，或者，该字段也可以未定义。
+
+声明一个 **nullable** 类型（可空类型）的语法如下：
+
+```c#
+<data_type>?<variable_name> = null;
+```
+
+```c#
+using System;
+
+namespace CalculatorApplication
+{
+    class NullableAtShow
+    {
+        static void Main(string[] args)
+        {
+            int? num1 = null;
+            int? num2 = 45;
+            double? num3 = new double?();
+            double? num4 = 3.14157;
+            
+            bool? boolval = new bool?();
+            
+            //显示值
+            
+            Console.WriteLine("显示可空类型的值： {0}，{1}，{2}， {3}", num1, num2, num3, num4);
+            Console.WriteLine("一个可空的布尔值： {0}", boolval);
+            Console.ReadLine();
+        }
+    }
+}
+
+//显示可空类型的值： , 45,  , 3.14157
+//一个可空的布尔值：
+```
+
+
+
+#### Null 合并运算符（ ?? ）
+
+Null 合并运算符用于定义可空类型和引用类型的默认值。Null 合并运算符为类型转换定义了一个预设值，以防可空类型的值为 Null。Null 合并运算符把操作数类型隐式转换为另一个可空（或不可空）的值类型的操作数的类型。
+
+
+
+如果第一个操作数的值为 null，则运算符返回第二个操作0数的值，否则返回第一个操作数的值。下面的实例演示了这点：
+
+```c#
+using System;
+namespace CalculatorApplication
+{
+   class NullablesAtShow
+   {
+         
+      static void Main(string[] args)
+      {
+         
+         double? num1 = null;
+         double? num2 = 3.14157;
+         double num3;
+         num3 = num1 ?? 5.34;      // num1 如果为空值则返回 5.34
+         Console.WriteLine("num3 的值： {0}", num3);
+         num3 = num2 ?? 5.34;
+         Console.WriteLine("num3 的值： {0}", num3);
+         Console.ReadLine();
+
+      }
+   }
+}
+
+//m3 的值： 5.34
+//m3 的值： 3.14157
+```
+
