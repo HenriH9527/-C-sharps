@@ -1264,3 +1264,718 @@ namespace CalculatorApplication
 //m3 的值： 3.14157
 ```
 
+
+
+------
+
+### C# 数组
+
+> 数组是一个存储相同类型元素的固定大小的顺序集合。数组是用来存储数据的集合，通常认为数组是一个同一类型变量的集合。
+>
+> 
+
+##### 声明数组
+
+```c#
+double[] blance;
+```
+
+##### 初始化数组
+
+```c#
+double[] balance = new double[10];
+```
+
+
+
+声明一个数组不会在内存中初始化数组。当初始化数组变量时，您可以赋值给数组。
+
+数组是一个引用类型，所以您需要使用 **new** 关键字来创建数组的实例。
+
+
+
+##### 赋值给数组
+
+###### 可以通过使用索引号赋值给一个单独的数组元素，比如：
+
+```c#
+double[] balance = new double[10];
+balance[0] = 4500.0;
+```
+
+###### 可以在声明数组的同时给数组赋值，比如：
+
+```c#
+double[] balance = { 2300.0, 45487.3, 4547.6 };
+```
+
+###### 可以创建并初始化一个数组
+
+```c#
+int [] marks = new int[5] { 99, 98, 93, 55 };
+```
+
+###### 也可以赋值一个数组变量到另一个目标数组变量中。在这种情况下，目标和源会指向相同的内存位置：
+
+```c#
+int [] marks = new int[] { 8, 7, 6, 33, 4 };
+int[] score = marks;
+```
+
+*当您创建一个数组时，C# 编译器会根据数组类型隐式初始化每个数组元素为一个默认值。例如，int 数组的所有元素都会被初始化为 0。*
+
+
+
+#### 访问数组元素
+
+> 元素是通过带索引的数组名称来访问的。这是通过把元素的索引放置在数组名称后的方括号中来实现的。例如：
+
+```c#
+double salary = balance[3]
+```
+
+
+
+```c#
+using System;
+
+namespace ArrayApplication
+{
+    class MyArray
+    {
+        static void Main(string[] args)
+        {
+         	int [] n = new int[10];
+            inti, j;
+            
+            /* 初始化数组 */
+            for ( i =0; i < 10; i++ )
+            {
+                n [ i ] = i + 100;
+            }
+            
+            //输出每个数组元素的值
+            for ( j = 0; j < 10; j++ )
+            {
+                Console.WriteLine("Element[{0}] = {1}", j, n[j]);
+            }
+            Console.ReadKey()
+        }
+    }
+}
+//Element[0] = 100
+//Element[1] = 101
+//Element[2] = 102
+//Element[3] = 103
+//Element[4] = 104
+//Element[5] = 105
+//Element[6] = 106
+//Element[7] = 107
+//Element[8] = 108
+//Element[9] = 109
+```
+
+
+
+#### 使用 foreach 循环
+
+```c#
+using System;
+
+namespace ArrayApplication
+{
+    class MyArray
+    {
+        static void Main(string[] args)
+        {
+            int [] n = new int[10];
+            
+            //初始化数组
+            for ( int i = 0; i < 10; i++ )
+            {
+                n[i] = 100 + i;
+            }
+            
+            //输出每个数组元素
+            foreach( int j in n)
+            {
+                int i = j - 100;
+                Console.WriteLine("Element[{0}] = {1}", i ,j);
+            }
+            Console.ReadKey();
+        }
+    }
+}
+//Element[0] = 100
+//Element[1] = 101
+//Element[2] = 102
+//Element[3] = 103
+//Element[4] = 104
+//Element[5] = 105
+//Element[6] = 106
+//Element[7] = 107
+//Element[8] = 108
+//Element[9] = 109
+```
+
+
+
+#### C# 数组细节
+
+| 概念           | 描述                                                         |
+| :------------- | :----------------------------------------------------------- |
+| 多维数组       | C# 支持多维数组。多维数组最简单的形式是二维数组。            |
+| 交错数组       | C# 支持交错数组，即数组的数组。                              |
+| 传递数组给函数 | 您可以通过指定不带索引的数组名称来给函数传递一个指向数组的指针。 |
+| 参数数组       | 这通常用于传递未知数量的参数给函数。                         |
+| Array 类       | 在 System 命名空间中定义，是所有数组的基类，并提供了各种用于数组的属性和方法。 |
+
+
+
+------
+
+#### C# 字符串
+
+##### 创建 String 对象
+
+- 通过给 String 变量指定一个字符串
+- 通过使用 String 类构造函数
+- 通过使用字符串串联运算符（ + ）
+- 通过检索属性或调用一个返回字符串的方法
+- 通过格式化方法来转换一个值或对象为它的字符串表示形式
+
+
+
+```c#
+using System;
+
+namespace StringApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //字符串，字符串连接
+            string fname, lname;
+            fname = "Benben";
+            lname = "Daidai";
+            
+            string fullname = fname + lname;
+            Console.WriteLine("Full Nme: {0}", fullname);
+            
+            //通过使用 string 构造函数
+            char[] letters = { 'H', 'e', 'l',	 'l', 'o' };
+            string greetings = new string(letters);
+            Console.WriteLine("Greetings: {0}", greetings);
+            
+            //方法返回字符串
+            string[] sarray = { "Hello", "From", "Tutorials", "point" };
+            string message = String.join("", sarray);
+            Console.WriteLine("Message :{0}", message);
+            
+            //用于转化值得格式化方法
+            DateTime waiting = new DateTime(2012, 10, 10, 17, 58, 1);
+            string chat = String.Format("Message sent at {0:t} on {0:D}", waiting);
+            Console.WriteLine("Message: {0}", chat);
+            Console.ReadKey();
+        }
+    }
+}
+
+//Full Name: RowanAtkinson
+//Greetings: Hello
+//Message: Hello From Tutorials Point
+//Message: Message sent at 17:58 on Wednesday, 10 October 2012
+```
+
+
+
+#### String 类的属性
+
+| 序号 | 属性名称 & 描述                                              |
+| :--- | :----------------------------------------------------------- |
+| 1    | **Chars** 在当前 *String* 对象中获取 *Char* 对象的指定位置。 |
+| 2    | **Length** 在当前的 *String* 对象中获取字符数。              |
+
+
+
+#### String 类的方法
+
+| 序号 | 方法名称 & 描述                                              |
+| :--- | :----------------------------------------------------------- |
+| 1    | **public static int Compare( string strA, string strB )**  比较两个指定的 string 对象，并返回一个表示它们在排列顺序中相对位置的整数。该方法区分大小写。 |
+| 2    | **public static int Compare( string strA, string strB, bool ignoreCase )**  比较两个指定的 string 对象，并返回一个表示它们在排列顺序中相对位置的整数。但是，如果布尔参数为真时，该方法不区分大小写。 |
+| 3    | **public static string Concat( string str0, string str1 )**  连接两个 string 对象。 |
+| 4    | **public static string Concat( string str0, string str1, string str2 )**  连接三个 string 对象。 |
+| 5    | **public static string Concat( string str0, string str1, string str2, string str3 )**  连接四个 string 对象。 |
+| 6    | **public bool Contains( string value )**  返回一个表示指定 string 对象是否出现在字符串中的值。 |
+| 7    | **public static string Copy( string str )**  创建一个与指定字符串具有相同值的新的 String 对象。 |
+| 8    | **public void CopyTo( int sourceIndex, char[] destination, int destinationIndex, int count )**  从 string 对象的指定位置开始复制指定数量的字符到 Unicode 字符数组中的指定位置。 |
+| 9    | **public bool EndsWith( string value )**  判断 string 对象的结尾是否匹配指定的字符串。 |
+| 10   | **public bool Equals( string value )**  判断当前的 string 对象是否与指定的 string 对象具有相同的值。 |
+| 11   | **public static bool Equals( string a, string b )**  判断两个指定的 string 对象是否具有相同的值。 |
+| 12   | **public static string Format( string format, Object arg0 )**  把指定字符串中一个或多个格式项替换为指定对象的字符串表示形式。 |
+| 13   | **public int IndexOf( char value )**  返回指定 Unicode 字符在当前字符串中第一次出现的索引，索引从 0 开始。 |
+| 14   | **public int IndexOf( string value )**  返回指定字符串在该实例中第一次出现的索引，索引从 0 开始。 |
+| 15   | **public int IndexOf( char value, int startIndex )**  返回指定 Unicode 字符从该字符串中指定字符位置开始搜索第一次出现的索引，索引从 0 开始。 |
+| 16   | **public int IndexOf( string value, int startIndex )**  返回指定字符串从该实例中指定字符位置开始搜索第一次出现的索引，索引从 0 开始。 |
+| 17   | **public int IndexOfAny( char[] anyOf )**  返回某一个指定的 Unicode 字符数组中任意字符在该实例中第一次出现的索引，索引从 0 开始。 |
+| 18   | **public int IndexOfAny( char[] anyOf, int startIndex )**  返回某一个指定的 Unicode 字符数组中任意字符从该实例中指定字符位置开始搜索第一次出现的索引，索引从 0 开始。 |
+| 19   | **public string Insert( int startIndex, string value )**  返回一个新的字符串，其中，指定的字符串被插入在当前 string 对象的指定索引位置。 |
+| 20   | **public static bool IsNullOrEmpty( string value )**  指示指定的字符串是否为 null 或者是否为一个空的字符串。 |
+| 21   | **public static string Join( string separator, string[] value )**  连接一个字符串数组中的所有元素，使用指定的分隔符分隔每个元素。 |
+| 22   | **public static string Join( string separator, string[] value, int startIndex, int count )**  连接接一个字符串数组中的指定位置开始的指定元素，使用指定的分隔符分隔每个元素。 |
+| 23   | **public int LastIndexOf( char value )**  返回指定 Unicode 字符在当前 string 对象中最后一次出现的索引位置，索引从 0 开始。 |
+| 24   | **public int LastIndexOf( string value )**  返回指定字符串在当前 string 对象中最后一次出现的索引位置，索引从 0 开始。 |
+| 25   | **public string Remove( int startIndex )**  移除当前实例中的所有字符，从指定位置开始，一直到最后一个位置为止，并返回字符串。 |
+| 26   | **public string Remove( int startIndex, int count )**  从当前字符串的指定位置开始移除指定数量的字符，并返回字符串。 |
+| 27   | **public string Replace( char oldChar, char newChar )**  把当前 string 对象中，所有指定的 Unicode 字符替换为另一个指定的 Unicode 字符，并返回新的字符串。 |
+| 28   | **public string Replace( string oldValue, string newValue )**  把当前 string 对象中，所有指定的字符串替换为另一个指定的字符串，并返回新的字符串。 |
+| 29   | **public string[] Split( params char[] separator )**  返回一个字符串数组，包含当前的 string 对象中的子字符串，子字符串是使用指定的 Unicode 字符数组中的元素进行分隔的。 |
+| 30   | **public string[] Split( char[] separator, int count )**  返回一个字符串数组，包含当前的 string 对象中的子字符串，子字符串是使用指定的 Unicode 字符数组中的元素进行分隔的。int 参数指定要返回的子字符串的最大数目。 |
+| 31   | **public bool StartsWith( string value )**  判断字符串实例的开头是否匹配指定的字符串。 |
+| 32   | **public char[] ToCharArray()** 返回一个带有当前 string 对象中所有字符的 Unicode 字符数组。 |
+| 33   | **public char[] ToCharArray( int startIndex, int length )**  返回一个带有当前 string 对象中所有字符的 Unicode 字符数组，从指定的索引开始，直到指定的长度为止。 |
+| 34   | **public string ToLower()** 把字符串转换为小写并返回。       |
+| 35   | **public string ToUpper()** 把字符串转换为大写并返回。       |
+| 36   | **public string Trim()** 移除当前 String 对象中的所有前导空白字符和后置空白字符。 |
+
+
+
+```c#
+using System;
+
+name StringApplication
+{
+	class stringProg
+	{
+		static void Main(string[] args)
+		{
+			string str1 = "this is test";
+			string str2 = "this is text";
+			
+			if (String.Compare(str1, str2) == 0)
+			{
+				Console.WriteLine(str1 + " and " + str2 + "are equal");
+			}
+			else
+			{
+				Console.WriteLine(str1 + " and " + str2 + "are not equal");
+			}
+			
+			Console.ReadKey();
+		}
+	}
+}
+
+//this is test and This is text are not equal.
+```
+
+
+
+###### 获取字符串
+
+```c#
+using System;
+
+namepace StringApplication
+{
+	class StringProg
+	{
+		static void Main(string[] args)
+		{
+			string str = "Last night i dream of San Pedro";
+			Console.WriteLine(str);
+			string substr = str.Substring(23);
+			Console.WriteLine(substr);
+			Console.ReadKey();
+		}
+	}
+}
+
+//Last night I dreamt of San Pedro
+//San Pedro
+```
+
+
+
+###### 连接字符串
+
+```c#
+using System;
+
+namespace StringApplication
+{
+    class StringProg
+    {
+        static void Main(string[] args)
+        {
+            string[] starry = new string[] {"Down the way nights are dark", "and the sun shines daily on the mountain top", "I took a trip on a sailing ship", "And when I reached Jamaica", "I made a shop"};
+            string str = String.Join("\n", starry);
+            
+            Console.WriteLine(str);
+            Console.ReadKey();
+        }
+    }
+}
+
+//Down the way nights are dark
+//And the sun shines daily on the mountain top
+//I took a trip on a sailing ship
+//And when I reached Jamaica
+//I made a stop
+```
+
+
+
+------
+
+#### C# 结构体
+
+> 在 C# 中，结构体是值类型数据结构。它使得一个单一变量可以存储各种数据类型的相关数据。**struct** 关键字用于创建结构体。
+
+
+
+结构体是用来代表一个记录。假设您想跟踪图书馆中书的动态。您可能想跟踪每本书的以下属性：
+
+- Title
+- Author
+- Subject
+- Book ID
+
+
+
+#### 定义结构体
+
+为了定义一个结构体，必须使用 struct 语句。struct 语句为程序定义了一个带有多个成员的新的数据类型。
+
+```c#
+struct Books
+{
+    public string title;
+    public string author;
+    public string subject;
+    public int book_id;
+}
+```
+
+
+
+下面的程序演示了结构的用法：
+
+```c#
+using System;
+using System.Text;
+
+struct Books
+{
+    public string title;
+    public string author;
+    public string subject;
+    public int book_id;
+}
+
+public class testStructure
+{
+    public static void Main(string[] args)
+    {
+        // 声明 Book1 Book2  类型为Book
+        Books Book1;
+        Books Book2;
+        
+        //Book1 详述
+        Book1.title = "C Programing";
+        Book1.author = "Zara Ali";
+        Book1.subject = "Telecom Billing Tutorial";
+        Book1.book_id = 45724;
+        
+        //打印 Book1 信息
+        Console.WriteLine("Book 1 title : {0}", Book1.title);
+        Console.WriteLine("Book 1 author : {0}", Book1.author);
+        Console.WriteLine("Book 1 subject : {0}", Book1.subject);
+        Console.WriteLine("Book 1 book_id : {0}", Book1.book_id);
+        
+        Console.ReadKey();
+    }
+}
+
+//Book 1 title : C Programming
+//Book 1 author : Nuha Ali
+//Book 1 subject : C Programming Tutorial
+//Book 1 book_id : 45724
+```
+
+
+
+#### C#结构的特点
+
+- 结构可带有方法、字段、索引、属性、运算符方法和事件。
+- 结构可定义构造函数，但不能定义析构函数。但是，您不能为结构定义默认的构造函数。默认的构造函数是自动定义的，且不能被改变。
+- 与类不同，结构不能继承其他的结构或类。
+- 结构不能作为其他结构或类的基础结构。
+- 结构可实现一个或多个接口。
+- 结构成员不能指定为 abstract、virtual 或 protected。
+- 当您使用 **New** 操作符创建一个结构对象时，会调用适当的构造函数来创建结构。与类不同，结构可以不使用 New 操作符即可被实例化。
+- 如果不使用 New 操作符，只有在所有的字段都被初始化之后，字段才被赋值，对象才被使用。
+
+
+
+#### 类 VS 结构
+
+类和结构有以下几个基本的不同点：
+
+- 类是引用类型，结构是值类型。
+- 结构不支持继承。
+- 结构不能声明默认的构造函数。
+
+
+
+```c#
+using System;
+using System.Text;
+
+struct Books
+{
+    private string title;
+    private string author;
+    private string subject;
+    private int bool_id;
+    public void getValues(string t, string a, string s, int id)
+    {
+        title = t;
+        author = a;
+        subject = s;
+        book_id = id;
+    }
+    
+    public void display()
+    {
+        Console.WriteLine("Tilte: {0}", title);
+        Console.WriteLine("Author: {0}", author);
+        Console.WriteLine("Subject: {0}", subject);
+        Console.WriteLine("Book_id: {0}", book_id);
+    }
+};
+
+public class testStructure
+{
+    public static void Main(string[] args)
+    {
+        Books Book1 = new Books();
+        Books Book2 = new Books();
+        
+        //Book1 详述
+        Book1.getValues("C Programing", "Nuha Ali", "telecom billing", 454564);
+        
+        //打印 Book 的信息
+        Book1.display();
+    }
+}
+/*
+Title : C Programming
+Author : Nuha Ali
+Subject : C Programming Tutorial
+Book_id : 6495407
+*/
+```
+
+
+
+------
+
+#### C#  枚举
+
+> 枚举是一组命名整型常量。枚举类型是使用 **enum** 关键字声明的。
+>
+> C# 枚举是值类型。换句话说，枚举包含自己的值，且不能继承或传递继承。
+
+
+
+#### 声明 enum 变量
+
+```c#
+enum <enum_name>
+{
+	enumeration list
+};
+```
+
+
+
+其中：
+
+- *enum_name* 指定枚举的类型名称。
+- *enumeration list* 是一个用逗号分隔的标识符列表。
+
+
+
+枚举列表中的每个符号代表一个整数值，一个比它前面的符号大的整数值。默认情况下，第一个枚举符号的值是 0.例如：
+
+```c#
+enum Days { Sun, Mon, tue, Wed, thu, Fri, Sat };
+```
+
+
+
+```c#
+using System;
+
+public class EnumTest
+{
+    enum Day { Sun, Mon, Tue, Wed, Thu, Fri, Sat };
+    
+    static void Main()
+    {
+        int x = (int)Day.Sun;
+        int y = (int)Day.Fri;
+        Console.WriteLine("Sun = {0}", x);
+        Console.WriteLine("Fri = {0}", y);
+    }
+}
+
+//Sun = 0
+//Fri = 5
+```
+
+
+
+------
+
+#### c# 类（Class）
+
+> 当你定义一个类时，你定义了一个数据类型的蓝图。这实际上并没有定义任何的数据，但它定义了类的名称意味着什么，也就是说，类的对象由什么组成及在这个对象上可执行什么操作。对象是类的实例。构成类的方法和变量成为类的成员。
+
+
+
+#### 类的定义
+
+> 类的定义是以关键字 **class** 开始，后跟类的名称。类的主体，包含在一对花括号内。下面是类定义的一般形式：
+
+```c#
+<access specifier> class class_name
+{
+    //member variables
+    <access specifier> <data type> variable1;
+    <access specifier> <data type> variable2;
+    ...
+        
+    <access specifier> <data type> varialben;
+    //member methods
+    <access specifier> <return type> method1(paramter_list)
+    {
+        //method body
+    }
+}
+```
+
+
+
+注意：
+
+- 访问标识符 <access specifier> 指定了对类及其成员的访问规则。如果没有指定，则使用默认的访问标识符。类的默认访问标识符是 **internal**，成员的默认访问标识符是 **private**。
+- 数据类型 <data type> 指定了变量的类型，返回类型 <return type> 指定了返回的方法返回的数据类型。
+- 如果要访问类的成员，你要使用点（.）运算符。
+- 点运算符链接了对象的名称和成员的名称。
+
+
+
+```c#
+using System;
+
+namespace BoxApplication
+{
+    class Box
+    {
+        public double Length;
+        public double Breadth;
+        public double Height;
+    }
+    
+    class Boxtester
+    {
+        static void Main(string[] args)
+        {
+            Box Box1 = new Box();
+            Box Box2 = new Box();
+            double volume = 0.0;   //体积
+            
+            //Box1 详述
+            Box1.Height = 5.0;
+            Box1.Length = 6.0;
+            Box1.Breadth = 7.0;
+            
+            //Box1体积
+            volume = Box1.Height * Box1.Length * Box1.Breadth;
+            Console.WriteLine("Box1 的体积：{0}", volume);
+            Console.ReadKey();
+        }
+    }
+}
+
+//Box1 的体积： 210
+```
+
+
+
+#### 成员函数和封装
+
+> 类的成员函数是一个在类定义中有它的定义或原型的函数，就像其他变量一样。作为类的一个成员，它能在类的任何对象上操作，且能访问该对象的类的所有成员。
+>
+> 成员变量是对象的属性（从设计角度），且它们保持私有来实现封装。这些变量只能使用公共成员函数来访问。
+
+
+
+```c#
+using System;
+
+namespace BoxApplication
+{
+    class Box
+    {
+        private double length;
+        private double breadth;
+        private double height;
+        public void setLength( double len )
+        {
+            length = len;
+        }
+        
+        public void setBreadth( double bre )
+        {
+            breadth = bre;
+        }
+        
+        public void setHeight( double hei )
+        {
+            height = hei;
+        }
+        
+        public double getVolume()
+        {
+            return length * height * breadth;
+        }
+    }
+    
+    class Boxtester
+    {
+        static void Main(string[] args)
+        {
+            Box Box1 = new Box();
+            double volume;
+            
+            Box1.setLength(6.0);
+            Box1.setBreadth(7.0);
+            Box1.setHeight(8.0);
+            
+            volume = Box1.getVolume();
+            Console.WriteLine("Box1的体积：{0}", volume);
+            Console.ReadKey();
+        }
+    }
+}
+
+//Box1 的体积： 210
+```
+
+
+

@@ -95,8 +95,8 @@ namespace RectTangleApplication
     {
         public int x;
         public int y;
-        public const int c1 = 5;
-        public const int c2 = c1 + 5;
+        public const int C1 = 5;
+        public const int C2 = C1 + 5;
 
         public SampleClass(int p1, int p2)
         {
@@ -105,7 +105,92 @@ namespace RectTangleApplication
         }
     }
 
-    class ExcuteRectangle
+    //输出数组
+    public class ArrayApplication
+    {
+        public int[] N1 = new int[10];
+        public int I, J;
+        public void Output()
+        {
+            //初始化数组
+            for (I = 0; I < 10; I++)
+            {
+                N1[I] = I + 100;
+            }
+
+            //for循环输出元素
+            //for (J = 0; J < 10; J++)
+            //{
+            //    Console.WriteLine("Element[{0}] = {1}", J, N1[J]);
+            //}
+            
+            //foreach循环输出元素
+            foreach (var j in N1)
+            {
+                var i = j - 100;
+                Console.WriteLine("Element[{0}] = {1}", i, j);
+            }
+        }
+    }
+
+    public class StringApplication
+    {
+        public void StringType()
+        {
+            //字符串  字符串连接
+            string fname,  lname;
+            fname = "呆呆";
+            lname = "笨笨";
+
+            string fullname = fname + lname;
+            Console.WriteLine("Full name: {0}", fullname);
+
+            //通过使用 string 构造函数
+            char[] letters = { 'H', 'E', 'l', 'l', 'o' };
+            string greetings = new string(letters);
+            Console.WriteLine("Greeting: {0}", greetings);
+
+            //方法返回字符串
+            string[] sarray = {"Hello", "C", "sharp"};
+            string message = String.Join("", sarray);
+            Console.WriteLine("Message: {0}", message);
+
+            //用于转化值的格式化方法
+            DateTime waiting = new DateTime(2019, 10, 10, 19, 20, 15);
+            string chat = String.Format("Message send at:  {0:t}, on {0:D}", waiting);
+            Console.WriteLine("Message: {0}", chat);
+            Console.ReadKey();
+        }
+    }
+
+    //结构体
+    struct Books
+    {
+        private string Title;
+        private string Author;
+        private string Subject;
+        private int Book_id;
+
+        public void GetValues(string t, string a, string s, int id)
+        {
+            Title = t;
+            Author = a;
+            Subject = s;
+            Book_id = id;
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("Title: {0}", Title);
+            Console.WriteLine("Author: {0}", Author);
+            Console.WriteLine("Subject: {0}", Subject);
+            Console.WriteLine("Book_id: {0}", Book_id);
+        }
+    }
+
+
+
+    public class ExcuteRectangle
     {
         //程序主入口
         static void Main(string[] args)
@@ -117,9 +202,23 @@ namespace RectTangleApplication
 
             SampleClass mC = new SampleClass(11, 22);   //声明常量
 
+            ArrayApplication newArray = new ArrayApplication();                     //输出数组
+
+            StringApplication newString = new StringApplication();                  //输出字符串
+
+            Books book1 = new Books();
+
+            book1.GetValues("c#高级程序设计", "阿飞", "学无止境", 12345);
+
+            book1.Display();
+
+            newString.StringType();
+
+            newArray.Output();
+
             Console.WriteLine("x = {0}, y = {1}", mC.x, mC.y);
 
-            Console.WriteLine("c1 = {0}, c2 = {1}", SampleClass.c1, SampleClass.c2);
+            Console.WriteLine("c1 = {0}, c2 = {1}", SampleClass.C1, SampleClass.C2);
 
             r.Acceptdetails();                                   //声明变量
 
