@@ -1979,3 +1979,933 @@ namespace BoxApplication
 
 
 
+#### C#中的构造函数
+
+> 类的 **构造函数** 是类的一个特殊的成员函数，当创建类的新对象时执行。
+>
+> 构造函数的名称与类的名称完全相同，它没有任何返回类型。
+
+
+
+```c#
+using System;
+
+namespace LineApplication
+{
+    class Line
+    {
+        private double length;
+        public line()
+        {
+            Console.WriteLine("对象已创建");
+        }
+        
+        public void setLength( double len )
+        {
+            length = len;
+        }
+        
+        public double getLength()
+        {
+            return length;
+        }
+        
+        static void Main(string[] args)
+        {
+            Line line = new Line();
+            
+            line.setLength(6.0);
+            Console.WriteLine("线条的长度：{0}", line.getLength());
+            Console.ReadKey();
+        }
+    }
+}
+
+//对象已创建
+//线条的长度： 6
+```
+
+
+
+**默认的构造函数**没有任何参数。但是如果你需要一个带有参数的构造函数可以有参数，这种构造函数叫做**参数化构造函数**。这种技术可以帮助你在创建对象的同时给对象赋初始值，具体请看下面实例：
+
+```c#
+using System;
+
+namespace LineApplication
+{
+    class Line
+    {
+        private double length;
+        public Line( double len )  //参数化构造函数
+        {
+            Console.WriteLine("对象已创建，length = {0}", len);
+            length = len;
+        }
+        
+        public void setLength( double len )
+        {
+            length = len;
+        }
+        
+        public double getLength()
+        {
+            return length;
+        }
+        
+        static void Main(string[] args)
+        {
+            Line line = new Line(10.0);
+            Console.WriteLine("线条的长度：{0}", line.getLength*());
+            
+            line.setLength(6.0);
+            Console.WriteLine("线条的长度：{0}", line.getLength());
+            Console.ReadKey();
+        }
+    }
+}
+
+//对象已创建，length = 10
+//线条的长度： 10
+//线条的长度： 6
+```
+
+
+
+#### 析构函数
+
+> 类的 **析构函数** 是类的一个特殊的成员函数，当类的对象超出范围时执行。
+>
+> 析构函数的名称是在类的名称前加上一个波浪形（~）作为前缀，它不返回值，也不带任何参数。
+>
+> 析构函数用于在结束程序（比如关闭文件、释放内存等）之前释放资源。析构函数不能继承或重载。
+
+
+
+```c#
+using System;
+
+namespace LineApplication
+{
+    class Line
+    {
+        private double length;
+        public Line()
+        {
+            Console.WriteLine("我是构造函数，对象已创建");
+        }
+        
+        ~Line()
+        {
+            Console.WriteLine("我是析构函数，对象已删除");
+        }
+        
+        public void setLength( double len )
+        {
+            length = len;
+        }
+        
+        public double getLength()
+        {
+            return length;
+        }
+        
+        static void Main(string[] args)
+        {
+            Line line = new Line();
+            
+            line.setLength(6.0);
+            Console.WriteLine("线条的长度：{0}", line.getLength());
+        }
+    }
+}
+
+//我是构造函数，对象已创建
+//线条的长度： 6
+//我是析构函数，对象已删除
+```
+
+
+
+#### C# 类的静态成员
+
+> 我们可以使用 **static** 关键字把类成员定义为静态的。当我们声明一个类成员为静态时，意味着无论有多少个类的对象被创建，只会有一个该静态成员的副本。
+>
+> 关键字 **static** 意味着类中只有一个该成员的实例。静态变量用于定义常量，因为它们的值可以通过直接调用类而不需要创建类的实例来获取。静态变量可在成员函数或类的定义外部进行初始化。你也可以在类的定义内部初始化静态变量。
+>
+> 下面的实例演示了**静态变量**的用法：
+
+
+
+```c#
+using System;
+
+namespace StaticVarApplication
+{
+    class StaticVar
+    {
+        public static int num;
+        public void count()
+        {
+            num++
+        }
+        public int getNum()
+        {
+            return num;
+        }
+    }
+    
+    class StaticTester
+    {
+        static void Main(string[] args)
+        {
+            StaticVar s1 = new StaticVar();
+            s1.count();
+            s1.count();
+            s1.count();
+            s2.count();
+            s2.count();
+            s2.count();
+            Console.WriteLine("s1 的变量num: {0}", s1.getNum);
+            Console.ReadKey();
+        }
+    }
+}
+
+//s1 的变量 num： 6
+```
+
+
+
+你也可以把一个**成员函数**声明为 **static**。这样的函数只能访问静态变量。静态函数在对象被创建之前就已经存在。
+
+```c#
+using System;
+
+namespace StaticVarApplication
+{
+    class StaticVar
+    {
+        public static int num;
+        public void count()
+        {
+            num++;
+        }
+        public static int getNum()
+        {
+            return num;
+        }
+    }
+    
+    class StaticTester
+    {
+        static void Main(string[] args)
+        {
+            StataticVar s = new StaticVar();
+            s.count();
+            s.count();
+            s.count();
+            Console.WriteLine("变量 num: {0}", StaticVar.getNum());
+            Console.ReadKey();
+        }
+    }
+}
+
+//变量 num ： 3
+```
+
+
+
+------
+
+#### C# 继承
+
+> 继承是面向对象程序设计中最重要的概念之一。继承允许我们根据一个类来定义另一个类，这使得创建和维护应用程序变得更容易。同时也有利于重用代码和节省开发时间。
+
+
+
+> 当创建一个类时，程序员不需要完全重新编写新的数据成员和成员函数，只需要设计一个新的类，继承了已有的类的成员即可。这个已有的类被称为的**基类**，这个新的类被称为**派生类**。
+
+
+
+> 继承的思想实现了 **属于（IS-A）** 关系。例如，哺乳动物 **属于（IS-A）** 动物，狗 **属于（IS-A）** 哺乳动物，因此狗 **属于（IS-A）** 动物。
+
+
+
+#### 基类和派生类
+
+一个类可以派生自多个类或接口，这意味着它可以从多个基类或接口继承数据和函数。
+
+```c#
+<访问修饰符> class <基类>
+{
+	....
+}
+
+class <派生类> ：<基类>
+{
+	...
+}
+```
+
+假设，有一个基类 Shape，它的派生类是 Rectangle：
+
+```c#
+using System;
+
+namespace InheritanceApplication
+{
+    class Shape
+    {
+        public void setWidth(int w)
+        {
+     		width = w;       
+        }
+        
+        public void setHeight( int h )
+        {
+            height = h;
+        }
+        
+        protected int width;
+        protected int height;
+    }
+    
+    //派生类
+    class Rectangle: shape
+    {
+    	public int getArea()
+    	{
+    		return (width * height);
+    	}
+    }
+    
+    class RectangleTester
+    {
+        static void Main(string[] args)
+        {
+            Rectangle Rect = new Rectangle();
+            
+            Rect.setWidth(5);
+            Rect.setHeight(7);
+            
+            //打印对象面积
+            Console.WriteLine("总面积：{0}", Rect.getArea());
+            Console.ReadKey();
+        }
+    }
+}
+
+//总面积： 35
+```
+
+
+
+#### 基类的初始化
+
+派生类继承了基类的成员变量和成员方法。因此父类对象应在子类对象创建之前被创建。您可以在成员初始化列表中进行父类的初始化。
+
+
+
+```c#
+using System;
+
+namespace RectangleApplication
+{
+    class Rectangle
+    {
+        //成员变量
+        protected double length;
+        protected double width;
+        public Rectangle(double l, double w)
+        {
+            length = l;
+            width = w;
+        }
+        
+        public double GetArea()
+        {
+            return length * width;
+        }
+        
+        public void Display()
+        {
+            Console.WriteLine("长度： {0}", length);
+         	Console.WriteLine("宽度： {0}", width);
+         	Console.WriteLine("面积： {0}", GetArea());
+        }
+    }
+    
+    class Tabletop: Rectangle
+    {
+    	private double cost;
+    	public Tabletop( double l, double w ) : base( l, w )
+    	{
+    		
+    	}
+    	public double GetCost()
+    	{
+    		double cost;
+    		cost = GetArea() * 70;
+    		return cost;
+    	}
+    	
+    	public void Display()
+    	{
+    		base.Display();
+    		Console.WriteLine("成本： {0}", getCost());
+    	}
+    	
+    	class ExcuteRectangle
+    	{
+    		static void Main(string[] args)
+    		{
+    			Tabletop t = new Tabletop(4.5, 7.5);
+    			t.Display();
+    			Console.ReadLine();
+    		}
+    	}
+    }
+}
+
+//长度： 4.5
+//宽度： 7.5
+//面积： 33.75
+//成本： 2362.5
+```
+
+
+
+#### C#多重继承
+
+多重继承指的是一个类别可以同时从多于一个父类继承行为与特征的功能。与单一继承相对，单一继承指一个类别只可以继承自一个父类。
+
+**C# 不支持多重继承**。但是，您可以使用接口来实现多重继承。下面的程序演示了这点：
+
+
+
+```c#
+using System;
+
+namespace InheritanceApplication
+{
+    class Shape
+    {
+     	public void setWidth( double w )
+        {
+            width = w;
+        }
+        
+        public void setHeight( double h )
+        {
+            height = h;
+        }
+        
+        protected int width;
+        protected int height;
+    }
+    
+    //基类 paintCost
+    public interface PaintCost
+    {
+        int getCost(int area);
+    }
+    
+    //派生类
+    class Rectangle: Shape, PaintCost
+    {
+    	public int getArea()
+    	{
+    		return (width * height);
+    	}
+    	
+    	public getCost( int area )
+    	{
+    		return area * 70;
+    	}
+    }
+    
+    class RectangleTester
+    {
+        static void Main(string[] args)
+        {
+            int area;
+            Rect.setWidth(5);
+            Rect.setHeight(7);
+            area = Rect.getArea();
+            
+            //打印对象面积
+            Console.WriteLine("总面积：　{0}", Rect.getArea());
+            Console.WriteLine("油漆总成本: ${0}", Rect.getCost(area));
+            Console.ReadKey();
+        }
+    }
+    
+    
+}
+```
+
+
+
+------
+
+#### C# 多态性
+
+> 多态是同一个行为具有多个不同表现形式或形态的能力。
+>
+> **多态性**意味着有多重形式。在面向对象编程范式中，多态性往往表现为"一个接口，多个功能"。
+>
+> 多态性可以是静态的或动态的。在**静态多态性**中，函数的响应是在编译时发生的。在**动态多态性**中，函数的响应是在运行时发生的。
+>
+> 在 C# 中，每个类型都是多态的，因为包括用户定义类型在内的所有类型都继承自 Object。
+>
+> 多态就是同一个接口，使用不同的实例而执行不同操作，如图所示：
+
+![img](https://www.runoob.com/wp-content/uploads/2013/12/dt-java.png)
+
+
+
+#### 静态多态性
+
+在编译时，函数和对象的连接机制被称为早期绑定，也被称为静态绑定。C# 提供了两种技术来实现静态多态性。分别为：
+
+- 函数重载
+- 运算符重载
+
+#### 函数重载
+
+可以在同一个范围内对相同的函数名有多个定义。函数的定义必须彼此不同，可以是参数列表中的参数类型不同，也可以是参数个数不同。不能重载只有返回类型不同的函数声明。
+
+下面的实例演示了几个相同的函数 **Add()**，用于对不同个数参数进行相加处理：
+
+```c#
+using System;
+
+namespace PolymorphismApplication
+{
+    public class TestData
+    {
+        public int Add(int a, int b, int c)
+        {
+            return a + b + c;
+        }
+        
+        public int Add(int a, int b)
+        {
+        	return a + b;    
+        }
+    }
+    
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            TestData dataClass = new TestData();
+            int add1 = dataClass.Add(1, 2);
+            int add2 = dataClass.Add(1, 2, 3);
+            
+            Console.WriteLine("add1: " + add1);
+            Console.WriteLine("add2: " ＋ add2);
+        }
+    }
+}
+```
+
+
+
+下面的实例演示了几个相同的函数 **print()**，用于打印不同的数据类型：
+
+
+
+```c#
+using System;
+
+namespace PolymorphismAppplication
+{
+    class Printdata
+    {
+        void print(int i)
+        {
+            Console.WriteLine("输出整型：{0}", i);
+        }
+        
+        void print(double f)
+        {
+            Console.WriteLine("输出浮点型：{0}", f);
+        }
+        
+        void print(string s)
+        {
+            Console.WriteLine("输出字符串：{0}", s);
+        }
+        
+        static void Main(string[] args)
+        {
+            Printdata p = new Printdata();
+            
+            //调用print 打印整数
+            p.print(1);
+            //调用print 打印浮点数
+			p.print(1.23);
+            //调用print 打印字符串
+            p.print("Hello World");
+            Console.ReadKey();
+        }
+    }
+    
+}
+
+
+//输出整型: 1
+//输出浮点型: 1.23
+//输出字符串: Hello Runoob
+```
+
+
+
+#### 动态多态性
+
+C# 允许您使用关键字 **abstract** 创建抽象类，用于提供接口的部分类的实现。当一个派生类继承自该抽象类时，实现即完成。**抽象类**包含抽象方法，抽象方法可被派生类实现。派生类具有更专业的功能。
+
+
+
+请注意，下面是有关抽象类的一些规则：
+
+- 您不能创建一个抽象类的实例。
+- 您不能在一个抽象类外部声明一个抽象方法。
+- 通过在类定义前面放置关键字 **sealed**，可以将类声明为**密封类**。当一个类被声明为 **sealed** 时，它不能被继承。抽象类不能被声明为 sealed。
+
+```c#
+using System;
+
+namespace PolymorphismApplication
+{
+    abstract class Shape
+    {
+        abstract public int area();
+    }
+    
+    class Rectangle: Shape
+    {
+    	private int length;
+    	private int width;
+    	private int Reactangle( int a = 0, int b = 0 )
+    	{
+    		length = a;
+    		width = b;
+    	}
+    	
+    	public override int area()
+    	{
+    		Console.WriteLine("Rectangle 类的面积：");
+    		return (width * length);
+    	}
+    }
+    
+    class ReactangleTester
+    {
+        static void Main(string[] args)
+        {
+            Rectangle r = new Rectangle(10, 7);
+            double a = r.area();
+            Console.WriteLine("面积：{0}", a);
+            Console.ReadKey();
+        }
+    }
+}
+
+//Rectangle 类的面积：
+//面积： 70
+```
+
+
+
+> 当有一个定义在类中的函数需要在继承类中实现时，可以使用**虚方法**。
+>
+> 虚方法是使用关键字 **virtual** 声明的。
+>
+> 虚方法可以在不同的继承类中有不同的实现。
+>
+> 对虚方法的调用是在运行时发生的。
+>
+> 动态多态性是通过 **抽象类** 和 **虚方法** 实现的。
+>
+> 以下实例创建了 Shape 基类，并创建派生类 Circle、 Rectangle、Triangle， Shape 类提供一个名为 Draw 的虚拟方法，在每个派生类中重写该方法以绘制该类的指定形状。
+
+
+
+```c#
+using System;
+using System.Collections.Generic;
+
+public class Shape
+{
+   public int X { get; private set; }
+   public int Y { get; private set; }
+   public int Height { get; set; }
+   public int Width { get; set; }
+    
+   //虚方法
+   public virtual void Draw()
+   {
+       Console.WriteLine("执基类的画图任务");
+   }
+}
+
+class Circle : Shape
+{
+	public override void Draw()
+	{
+		Console.WriteLine("画一个圆形");
+		base.Draw();
+	}
+}
+
+class Reactangle : Shape
+{
+	public override void Draw()
+	{
+		Console.WriteLine("画一个长方形");
+		base.Draw()
+	}
+}
+
+class Triangle : Shape
+{
+	public override void Draw()
+	{
+		Console.WriteLine("画一个三角形");
+	}
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        //创建一个 List<Shape> 对象，并向该对象添加 Circle、 Triangle、和 Rectangle
+        var shapes = new List<Shape>
+        {
+            new Reactangle(),
+            new Triangle(),
+            new Circle()
+        };
+        
+        //使用 foreach 对该列表的派生类进行循环访问，并对其中的每个 Shape 对象调用 Draw 方法
+        foreach (var shape in shapes)
+        {
+            shape.Draw();
+        }
+        
+        Console.WriteLine("按下任意键退出");
+        Console.ReadKey();
+    }
+}
+```
+
+下面的程序演示通过虚方法 area() 来计算不同形状图像的面积：
+
+```c#
+using System;
+namespace PolymorphismApplication
+{
+    class Shape
+    {
+        protected int width, height;
+        public Shape( int a; int b )
+        {
+            width = a;
+            height = b;
+        }
+        
+        public virtual int area()
+        {
+            Console.WriteLine("父类的面积");
+            return 0;
+        }
+    }
+    
+    class Rectangle: Shape
+    {
+    	public Rectangle( int a = 0, int b = 0 ):base(a, b)
+    	{
+    	
+    	}
+    	
+    	public override int area()
+    	{
+    		Console.WriteLine("Rectangle 类的面积:");
+    		return (width * height);
+    	}
+    }
+    
+    class Triangle: Shape
+    {
+    	public Triangle(int a = 0, int b = 0): base(a, b)
+    	{
+    	
+    	}
+    	
+    	public override int area()
+    	{
+    		Console.WriteLine("Triangle类的面积:")；
+    		return (width * height / 2);
+    	}
+    }
+    
+    class Caller
+    {
+        public void CallArea(Shape sh)
+        {
+            int a;
+            a = sh.area();
+            Console.WriteLine("面积：{0}", a);
+        }
+    }
+    
+    class Tester
+    {
+        static void Main(string[] args)
+        {
+            Caller c = new Caller();
+            Rectangle r = new Rectangle(10, 7);
+            Triangle t = new Triangle(10, 5);
+            c.CallArea(r);
+            c.CallArea(t);
+            Console.ReadKey();
+        }
+    }
+}
+
+//Rectangle 类的面积：
+//面积：70
+//Triangle 类的面积：
+//面积：25
+```
+
+
+
+------
+
+#### C# 运算符重载
+
+> 您可以重定义或重载 C# 中内置的运算符。因此，程序员也可以使用用户自定义类型的运算符。重载运算符是具有特殊名称的函数，是通过关键字 **operator** 后跟运算符的符号来定义的。与其他函数一样，重载运算符有返回类型和参数列表。
+
+例如，请看下面的函数：
+
+```c#
+public static Box operator+ (Box b, Box c)
+{
+    Box box = new Box();
+    box.length = b.length + c.length;
+    box.breadth = b.breadth + c.breadth;
+    box.height = b.height + c.height;
+    return box;
+}
+
+/*
+上面的函数为用户自定义的类 Box 实现了加法运算符（+）。它把两个 Box 对象的属性相加，并返回相加后的 Box 对象。
+*/
+```
+
+
+
+####   运算符重载的实现
+
+```c#
+using System;
+
+namespace OperatorApplication
+{
+    class Box
+    {
+        private double length;
+        private double width;
+        private double breadth;
+        
+        public double getVolume()
+        {
+            return length * breadth * height;
+        }
+        
+        public void setLength(double len)
+        {
+            length = len;
+        }
+        
+        public void setBreadth(double bre)
+        {
+            breadth = bre;
+        }
+        
+        public boid setHeight(double hei)
+        {
+            height = hei;
+        }
+        
+        //重载 + 运算符来把两个 BOx 对象相加
+        public static Box operator+ (Box b, Box c)
+        {
+            Box box = new Box();
+            box.length = b.length + c.length;
+             box.breadth = b.breadth + c.breadth;
+             box.height = b.height + c.height;
+             return box;
+        }
+    }
+    
+    class Tester
+    {
+       	static void Main(string[] args)
+        {
+           Box Box1 = new Box();         // 声明 Box1，类型为 Box
+             Box Box2 = new Box();         // 声明 Box2，类型为 Box
+             Box Box3 = new Box();         // 声明 Box3，类型为 Box
+             double volume = 0.0;          // 体积
+
+             // Box1 详述
+             Box1.setLength(6.0);
+             Box1.setBreadth(7.0);
+             Box1.setHeight(5.0);
+
+             // Box2 详述
+             Box2.setLength(12.0);
+             Box2.setBreadth(13.0);
+             Box2.setHeight(10.0);
+
+             // Box1 的体积
+             volume = Box1.getVolume();
+             Console.WriteLine("Box1 的体积： {0}", volume);
+
+             // Box2 的体积
+             volume = Box2.getVolume();
+             Console.WriteLine("Box2 的体积： {0}", volume);
+
+             // 把两个对象相加
+             Box3 = Box1 + Box2;
+
+             // Box3 的体积
+             volume = Box3.getVolume();
+             Console.WriteLine("Box3 的体积： {0}", volume);
+             Console.ReadKey();
+        }
+    }
+}
+
+//Box1 的体积： 210
+//Box2 的体积： 1560
+//Box3 的体积： 5400
+```
+
+
+
+#### 可重载运算符
+
+| 运算符                                | 描述                                         |
+| :------------------------------------ | :------------------------------------------- |
+| +, -, !, ~, ++, --                    | 这些一元运算符只有一个操作数，且可以被重载。 |
+| +, -, *, /, %                         | 这些二元运算符带有两个操作数，且可以被重载。 |
+| ==, !=, <, >, <=, >=                  | 这些比较运算符可以被重载。                   |
+| &&, \|\|                              | 这些条件逻辑运算符不能被直接重载。           |
+| +=, -=, *=, /=, %=                    | 这些赋值运算符不能被重载。                   |
+| =, ., ?:, ->, new, is, sizeof, typeof | 这些运算符不能被重载。                       |
+

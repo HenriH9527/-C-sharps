@@ -188,6 +188,49 @@ namespace RectTangleApplication
         }
     }
 
+    //通过抽象类和虚方法实现动态多态性
+
+    public class shape
+    {
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
+
+        //虚方法
+        public virtual void Draw()
+        {
+            Console.WriteLine("执行基类的画图任务");
+        }
+    }
+
+    class Circle : shape
+    {
+        public override void Draw()
+        {
+            Console.WriteLine("画一个圆形");
+            base.Draw();
+        }
+    }
+
+    class Rectangles : shape
+    {
+        public override void Draw()
+        {
+            Console.WriteLine("画一个长方形");
+            base.Draw();
+        }
+    }
+
+    class Triangle : shape
+    {
+        public override void Draw()
+        {
+            Console.WriteLine("画一个三角形");
+            base.Draw();
+        }
+    }
+
 
 
     public class ExcuteRectangle
@@ -209,6 +252,24 @@ namespace RectTangleApplication
             Books book1 = new Books();
 
             book1.GetValues("c#高级程序设计", "阿飞", "学无止境", 12345);
+
+            // 创建一个 List<Shape> 对象，并向该对象添加 Circle、Triangle 和 Rectangle
+            var shapes = new List<shape>
+            {
+                new Rectangles(),
+                new Circle(),
+                new Triangle()
+            };
+
+            // 使用 foreach 循环对该列表的派生类进行循环访问，并对其中的每个 Shape 对象调用 Draw 方法 
+            foreach (var shape in shapes)
+            {
+                shape.Draw();
+            }
+
+            Console.WriteLine("按任意键退出");
+
+            Console.ReadKey();
 
             book1.Display();
 
