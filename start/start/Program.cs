@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -231,6 +232,29 @@ namespace RectTangleApplication
         }
     }
 
+    public class FileOperate
+    {
+        public void operate()
+        {
+            FileStream F = new FileStream("test.dat", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+            for (int i = 1; i <= 20; i++)
+            {
+                F.WriteByte((byte)i);
+            }
+
+            F.Position = 0;
+
+            for (int i = 0; i <= 20; i++)
+            {
+                Console.Write(F.ReadByte() + " ");
+            }
+
+            F.Close();
+            Console.ReadKey();
+        }
+    }
+
 
 
     public class ExcuteRectangle
@@ -238,6 +262,10 @@ namespace RectTangleApplication
         //程序主入口
         static void Main(string[] args)
         {
+            FileOperate o = new FileOperate();
+
+            o.operate();
+            
             //创建实例
             Rectangle r = new Rectangle();             //求矩形面积
 
