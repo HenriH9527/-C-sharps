@@ -255,6 +255,19 @@ namespace RectTangleApplication
         }
     }
 
+    public class MyClass
+    {
+        [Obsolete("请不要使用旧方法，请使用新的方法", true)]
+        public void OldMethod()
+        {
+            Console.WriteLine("It is a old Method");
+        }
+        public void NewMethod()
+        {
+            Console.WriteLine("It is a new Method");
+        }
+    }
+
 
 
     public class ExcuteRectangle
@@ -265,7 +278,11 @@ namespace RectTangleApplication
             FileOperate o = new FileOperate();
 
             o.operate();
-            
+
+            MyClass mc = new MyClass();
+
+            mc.OldMethod();
+
             //创建实例
             Rectangle r = new Rectangle();             //求矩形面积
 
