@@ -4413,3 +4413,844 @@ class Reactangle
 ```
 System.Reflection.MemberInfo info = typeof(MyClass);
 ```
+
+下面的程序演示了这点：
+
+```c#
+using System;
+
+[AttributeUsage(AttributeTargets.All)]
+public class HelpAttribute: System.Attribute
+{
+	public readonly string Url;
+	
+	public string Topic //Topic 是一个命名(named)参数
+	{
+		get
+		{
+			return topic;
+		}
+		set
+		{
+			topic = value;
+		}
+	}
+	
+	public HelpAttribute(string url) //url 是一个定位（positional）参数
+	{
+		this.Url = url;
+	}
+	
+	private string topic;
+}
+
+[HelpAttribute("information on the class MyClass")]
+class MyClass
+{
+    
+}
+
+namespace AttributeAppl
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            System.Reflection.MemberInfo info = typeof(MyClass);
+            Object[] attributes = info.GetCustomAttributes(true);
+            for(int i = 0; i < attributes.Length; i++)
+            {
+                System.Console.WriteLine(attributes[i]);
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+//HelpAttribute
+```
+
+
+
+在本实例中，我们将使用在上一章中创建的 *DeBugInfo* 特性，并使用反射（Reflection）来读取 *Rectangle* 类中的元数据。
+
+```c#
+using System;
+using System.Reflection;
+namespace BugFixApplication
+{
+   // 一个自定义特性 BugFix 被赋给类及其成员
+   [AttributeUsage(AttributeTargets.Class |
+   AttributeTargets.Constructor |
+   AttributeTargets.Field |
+   AttributeTargets.Method |
+   AttributeTargets.Property,
+   AllowMultiple = true)]
+
+   public class DeBugInfo : System.Attribute
+   {
+      private int bugNo;
+      private string developer;
+      private string lastReview;
+      public string message;
+
+      public DeBugInfo(int bg, string dev, string d)
+      {
+         this.bugNo = bg;
+         this.developer = dev;
+         this.lastReview = d;
+      }
+
+      public int BugNo
+      {
+         get
+         {
+            return bugNo;
+         }
+      }
+      public string Developer
+      {
+         get
+         {
+            return developer;
+         }
+      }
+      public string LastReview
+      {
+         get
+         {
+            return lastReview;
+         }
+      }
+      public string Message
+      {
+         get
+         {
+            return message;
+         }
+         set
+         {
+            message = value;
+         }
+      }
+   }
+   [DeBugInfo(45, "Zara Ali", "12/8/2012",
+        Message = "Return type mismatch")]
+   [DeBugInfo(49, "Nuha Ali", "10/10/2012",
+        Message = "Unused variable")]
+   class Rectangle
+   {
+      // 成员变量
+      protected double length;
+      protected double width;
+      public Rectangle(double l, double w)
+      {
+         length = l;
+         width = w;
+      }
+      [DeBugInfo(55, "Zara Ali", "19/10/2012",
+           Message = "Return type mismatch")]
+      public double GetArea()
+      {
+         return length * width;
+      }
+      [DeBugInfo(56, "Zara Ali", "19/10/2012")]
+      public void Display()
+      {
+         Console.WriteLine("Length: {0}", length);
+         Console.WriteLine("Width: {0}", width);
+         Console.WriteLine("Area: {0}", GetArea());
+      }
+   }//end class Rectangle  
+   
+   class ExecuteRectangle
+   {
+      static void Main(string[] args)
+      {
+         Rectangle r = new Rectangle(4.5, 7.5);
+         r.Display();
+         Type type = typeof(Rectangle);
+         // 遍历 Rectangle 类的特性
+         foreach (Object attributes in type.GetCustomAttributes(false))
+         {
+            DeBugInfo dbi = (DeBugInfo)attributes;
+            if (null != dbi)
+            {
+               Console.WriteLine("Bug no: {0}", dbi.BugNo);
+               Console.WriteLine("Developer: {0}", dbi.Developer);
+               Console.WriteLine("Last Reviewed: {0}",
+                                        dbi.LastReview);
+               Console.WriteLine("Remarks: {0}", dbi.Message);
+            }
+         }
+         
+         // 遍历方法特性
+         foreach (MethodInfo m in type.GetMethods())
+         {
+            foreach (Attribute a in m.GetCustomAttributes(true))
+            {
+               DeBugInfo dbi = (DeBugInfo)a;
+               if (null != dbi)
+               {
+                  Console.WriteLine("Bug no: {0}, for Method: {1}",
+                                                dbi.BugNo, m.Name);
+                  Console.WriteLine("Developer: {0}", dbi.Developer);
+                  Console.WriteLine("Last Reviewed: {0}",
+                                                dbi.LastReview);
+                  Console.WriteLine("Remarks: {0}", dbi.Message);
+               }
+            }
+         }
+         Console.ReadLine();
+      }
+   }
+}
+
+/*
+Length: 4.5
+Width: 7.5
+Area: 33.75
+Bug No: 49
+Developer: Nuha Ali
+Last Reviewed: 10/10/2012
+Remarks: Unused variable
+Bug No: 45
+Developer: Zara Ali
+Last Reviewed: 12/8/2012
+Remarks: Return type mismatch
+Bug No: 55, for Method: GetArea
+Developer: Zara Ali
+Last Reviewed: 19/10/2012
+Remarks: Return type mismatch
+Bug No: 56, for Method: Display
+Developer: Zara Ali
+Last Reviewed: 19/10/2012
+Remarks: 
+*/
+```
+
+------
+
+### C# 属性（Property）
+
+> **属性（Property）** 是类（class）、结构（structure）和接口（interface）的命名（named）成员。类或结构中的成员变量或方法称为 **域（Field）**。属性（Property）是域（Field）的扩展，且可使用相同的语法来访问。它们使用 **访问器（accessors）** 让私有域的值可被读写或操作。
+>
+> 属性（Property）不会确定存储位置。相反，它们具有可读写或计算它们值的 **访问器（accessors）**。
+
+例如，有一个名为 Student 的类，带有 age、name 和 code 的私有域。我们不能在类的范围以外直接访问这些域，但是我们可以拥有访问这些私有域的属性。
+
+## 访问器（Accessors）
+
+属性（Property）的**访问器（accessor）**包含有助于获取（读取或计算）或设置（写入）属性的可执行语句。访问器（accessor）声明可包含一个 get 访问器、一个 set 访问器，或者同时包含二者。例如：
+
+```c#
+//声明类型为 string 的 code 属性
+
+public string Code
+{
+	get
+	{
+		return code;
+	}
+	set
+	{
+		code = value;
+	}
+}
+
+//声明类型为 string 的 name 属性
+public string Name
+{
+	get
+	{
+		return name;
+	}
+	set
+	{
+		name = value;
+	}
+}
+
+//声明类型为 int 的 Age属性
+public int Age
+{
+	get
+	{
+		return age;
+	}
+	set
+	{
+		age = value;
+	}
+}
+```
+
+#### 实例
+
+下面的实例演示了属性（Property）的用法：
+
+```c#
+using System;
+namespace tutorialspoint
+{
+   class Student
+   {
+
+      private string code = "N.A";
+      private string name = "not known";
+      private int age = 0;
+
+      // 声明类型为 string 的 Code 属性
+      public string Code
+      {
+         get
+         {
+            return code;
+         }
+         set
+         {
+            code = value;
+         }
+      }
+   
+      // 声明类型为 string 的 Name 属性
+      public string Name
+      {
+         get
+         {
+            return name;
+         }
+         set
+         {
+            name = value;
+         }
+      }
+
+      // 声明类型为 int 的 Age 属性
+      public int Age
+      {
+         get
+         {
+            return age;
+         }
+         set
+         {
+            age = value;
+         }
+      }
+      public override string ToString()
+      {
+         return "Code = " + Code +", Name = " + Name + ", Age = " + Age;
+      }
+    }
+    class ExampleDemo
+    {
+      public static void Main()
+      {
+         // 创建一个新的 Student 对象
+         Student s = new Student();
+            
+         // 设置 student 的 code、name 和 age
+         s.Code = "001";
+         s.Name = "Zara";
+         s.Age = 9;
+         Console.WriteLine("Student Info: {0}", s);
+         // 增加年龄
+         s.Age += 1;
+         Console.WriteLine("Student Info: {0}", s);
+         Console.ReadKey();
+       }
+   }
+}
+
+//Student Info: Code = 001, Name = Zara, Age = 9
+//Student Info: Code = 001, Name = Zara, Age = 10
+```
+
+
+
+#### 抽象属性（Abstract Properties）
+
+抽象类可拥有抽象属性，这些属性应在派生类中被实现。下面的程序说明了这点：
+
+```c#
+using System;
+namespace tutorialspoint
+{
+   public abstract class Person
+   {
+      public abstract string Name
+      {
+         get;
+         set;
+      }
+      public abstract int Age
+      {
+         get;
+         set;
+      }
+   }
+   class Student : Person
+   {
+
+      private string code = "N.A";
+      private string name = "N.A";
+      private int age = 0;
+
+      // 声明类型为 string 的 Code 属性
+      public string Code
+      {
+         get
+         {
+            return code;
+         }
+         set
+         {
+            code = value;
+         }
+      }
+   
+      // 声明类型为 string 的 Name 属性
+      public override string Name
+      {
+         get
+         {
+            return name;
+         }
+         set
+         {
+            name = value;
+         }
+      }
+
+      // 声明类型为 int 的 Age 属性
+      public override int Age
+      {
+         get
+         {
+            return age;
+         }
+         set
+         {
+            age = value;
+         }
+      }
+      public override string ToString()
+      {
+         return "Code = " + Code +", Name = " + Name + ", Age = " + Age;
+      }
+   }
+   class ExampleDemo
+   {
+      public static void Main()
+      {
+         // 创建一个新的 Student 对象
+         Student s = new Student();
+            
+         // 设置 student 的 code、name 和 age
+         s.Code = "001";
+         s.Name = "Zara";
+         s.Age = 9;
+         Console.WriteLine("Student Info:- {0}", s);
+         // 增加年龄
+         s.Age += 1;
+         Console.WriteLine("Student Info:- {0}", s);
+         Console.ReadKey();
+       }
+   }
+}
+
+//Student Info: Code = 001, Name = Zara, Age = 9
+//Student Info: Code = 001, Name = Zara, Age = 10
+```
+
+
+
+------
+
+### C# 索引器（Indexer）
+
+**索引器（Indexer）** 允许一个对象可以像数组一样被索引。当您为类定义一个索引器时，该类的行为就会像一个 **虚拟数组（virtual array）** 一样。您可以使用数组访问运算符（[ ]）来访问该类的实例。
+
+
+
+#### 索引器（Indexer）的用途
+
+索引器的行为的声明在某种程度上类似于属性（property）。就像属性（property），您可使用 **get** 和 **set** 访问器来定义索引器。但是，属性返回或设置一个特定的数据成员，而索引器返回或设置对象实例的一个特定值。换句话说，它把实例数据分为更小的部分，并索引每个部分，获取或设置每个部分。
+
+定义一个属性（property）包括提供属性名称。索引器定义的时候不带有名称，但带有 **this** 关键字，它指向对象实例。下面的实例演示了这个概念：
+
+```c#
+using System;
+namespace IndexerApplication
+{
+   class IndexedNames
+   {
+      private string[] namelist = new string[size];
+      static public int size = 10;
+      public IndexedNames()
+      {
+         for (int i = 0; i < size; i++)
+         namelist[i] = "N. A.";
+      }
+      public string this[int index]
+      {
+         get
+         {
+            string tmp;
+
+            if( index >= 0 && index <= size-1 )
+            {
+               tmp = namelist[index];
+            }
+            else
+            {
+               tmp = "";
+            }
+
+            return ( tmp );
+         }
+         set
+         {
+            if( index >= 0 && index <= size-1 )
+            {
+               namelist[index] = value;
+            }
+         }
+      }
+
+      static void Main(string[] args)
+      {
+         IndexedNames names = new IndexedNames();
+         names[0] = "Zara";
+         names[1] = "Riz";
+         names[2] = "Nuha";
+         names[3] = "Asif";
+         names[4] = "Davinder";
+         names[5] = "Sunil";
+         names[6] = "Rubic";
+         for ( int i = 0; i < IndexedNames.size; i++ )
+         {
+            Console.WriteLine(names[i]);
+         }
+         Console.ReadKey();
+      }
+   }
+}
+
+/*
+Zara
+Riz
+Nuha
+Asif
+Davinder
+Sunil
+Rubic
+N. A.
+N. A.
+N. A.
+*/
+```
+
+
+
+#### 重载索引器（Indexer）
+
+索引器（Indexer）可被重载。索引器声明的时候也可带有多个参数，且每个参数可以是不同的类型。没有必要让索引器必须是整型的。C# 允许索引器可以是其他类型，例如，字符串类型。
+
+下面的实例演示了重载索引器：
+
+
+
+```c#
+using System;
+namespace IndexerApplication
+{
+   class IndexedNames
+   {
+      private string[] namelist = new string[size];
+      static public int size = 10;
+      public IndexedNames()
+      {
+         for (int i = 0; i < size; i++)
+         {
+          namelist[i] = "N. A.";
+         }
+      }
+      public string this[int index]
+      {
+         get
+         {
+            string tmp;
+
+            if( index >= 0 && index <= size-1 )
+            {
+               tmp = namelist[index];
+            }
+            else
+            {
+               tmp = "";
+            }
+
+            return ( tmp );
+         }
+         set
+         {
+            if( index >= 0 && index <= size-1 )
+            {
+               namelist[index] = value;
+            }
+         }
+      }
+      public int this[string name]
+      {
+         get
+         {
+            int index = 0;
+            while(index < size)
+            {
+               if (namelist[index] == name)
+               {
+                return index;
+               }
+               index++;
+            }
+            return index;
+         }
+
+      }
+
+      static void Main(string[] args)
+      {
+         IndexedNames names = new IndexedNames();
+         names[0] = "Zara";
+         names[1] = "Riz";
+         names[2] = "Nuha";
+         names[3] = "Asif";
+         names[4] = "Davinder";
+         names[5] = "Sunil";
+         names[6] = "Rubic";
+         // 使用带有 int 参数的第一个索引器
+         for (int i = 0; i < IndexedNames.size; i++)
+         {
+            Console.WriteLine(names[i]);
+         }
+         // 使用带有 string 参数的第二个索引器
+         Console.WriteLine(names["Nuha"]);
+         Console.ReadKey();
+      }
+   }
+}
+
+/*
+Zara
+Riz
+Nuha
+Asif
+Davinder
+Sunil
+Rubic
+N. A.
+N. A.
+N. A.
+2
+*/
+```
+
+
+
+------
+
+#### C# 委托（Delegate）
+
+C# 中的委托（Delegate）类似于 C 或 C++ 中函数的指针。**委托（Delegate）** 是存有对某个方法的引用的一种引用类型变量。引用可在运行时被改变。
+
+委托（Delegate）特别用于实现事件和回调方法。所有的委托（Delegate）都派生自 **System.Delegate** 类。
+
+
+
+#### 声明委托（Delegate）
+
+委托声明决定了可由该委托引用的方法。委托可指向一个与其具有相同标签的方法。
+
+例如，假设有一个委托：
+
+```
+delegate <return type> <delegate-name> <parameter list>
+```
+
+#### 实例化委托（Delegate）
+
+一旦声明了委托类型，委托对象必须使用 **new** 关键字来创建，且与一个特定的方法有关。当创建委托时，传递到 **new** 语句的参数就像方法调用一样书写，但是不带有参数。例如：
+
+```c#
+public delegate void printString(string s);
+...
+printString ps1 = new printString(WriteToScreen);
+printString ps2 = new printString(WriteToFile);
+```
+
+
+
+下面的实例演示了委托的声明、实例化和使用，该委托可用于引用带有一个整型参数的方法，并返回一个整型值。
+
+```c#
+using System;
+
+delegate int NumberChanger(int n);
+namespace DelegateAppl
+{
+   class TestDelegate
+   {
+      static int num = 10;
+      public static int AddNum(int p)
+      {
+         num += p;
+         return num;
+      }
+
+      public static int MultNum(int q)
+      {
+         num *= q;
+         return num;
+      }
+      public static int getNum()
+      {
+         return num;
+      }
+
+      static void Main(string[] args)
+      {
+         // 创建委托实例
+         NumberChanger nc1 = new NumberChanger(AddNum);
+         NumberChanger nc2 = new NumberChanger(MultNum);
+         // 使用委托对象调用方法
+         nc1(25);
+         Console.WriteLine("Value of Num: {0}", getNum());
+         nc2(5);
+         Console.WriteLine("Value of Num: {0}", getNum());
+         Console.ReadKey();
+      }
+   }
+}
+
+//Value of Num: 35
+//Value of Num: 175
+```
+
+
+
+#### 委托的多播（Multicasting of a Delegate）
+
+委托对象可使用 "+" 运算符进行合并。一个合并委托调用它所合并的两个委托。只有相同类型的委托可被合并。"-" 运算符可用于从合并的委托中移除组件委托。
+
+使用委托的这个有用的特点，您可以创建一个委托被调用时要调用的方法的调用列表。这被称为委托的 **多播（multicasting）**，也叫组播。下面的程序演示了委托的多播：
+
+
+
+```c#
+using System;
+
+delegate int NumberChanger(int n);
+namespace DelegateAppl
+{
+   class TestDelegate
+   {
+      static int num = 10;
+      public static int AddNum(int p)
+      {
+         num += p;
+         return num;
+      }
+
+      public static int MultNum(int q)
+      {
+         num *= q;
+         return num;
+      }
+      public static int getNum()
+      {
+         return num;
+      }
+
+      static void Main(string[] args)
+      {
+         // 创建委托实例
+         NumberChanger nc;
+         NumberChanger nc1 = new NumberChanger(AddNum);
+         NumberChanger nc2 = new NumberChanger(MultNum);
+         nc = nc1;
+         nc += nc2;
+         // 调用多播
+         nc(5);
+         Console.WriteLine("Value of Num: {0}", getNum());
+         Console.ReadKey();
+      }
+   }
+}
+
+//Value of Num: 75
+```
+
+
+
+#### 委托（Delegate）的用途
+
+下面的实例演示了委托的用法。委托 *printString* 可用于引用带有一个字符串作为输入的方法，并不返回任何东西。
+
+我们使用这个委托来调用两个方法，第一个把字符串打印到控制台，第二个把字符串打印到文件：
+
+```c#
+using System;
+using System.IO;
+
+namespace DelegateAppl
+{
+   class PrintString
+   {
+      static FileStream fs;
+      static StreamWriter sw;
+      // 委托声明
+      public delegate void printString(string s);
+
+      // 该方法打印到控制台
+      public static void WriteToScreen(string str)
+      {
+         Console.WriteLine("The String is: {0}", str);
+      }
+      // 该方法打印到文件
+      public static void WriteToFile(string s)
+      {
+         fs = new FileStream("c:\\message.txt",
+         FileMode.Append, FileAccess.Write);
+         sw = new StreamWriter(fs);
+         sw.WriteLine(s);
+         sw.Flush();
+         sw.Close();
+         fs.Close();
+      }
+      // 该方法把委托作为参数，并使用它调用方法
+      public static void sendString(printString ps)
+      {
+         ps("Hello World");
+      }
+      static void Main(string[] args)
+      {
+         printString ps1 = new printString(WriteToScreen);
+         printString ps2 = new printString(WriteToFile);
+         sendString(ps1);
+         sendString(ps2);
+         Console.ReadKey();
+      }
+   }
+}
+
+//The String is: Hello World
+```
+
+------
+
+### C# 事件（Event）
+
+> **事件（Event）** 基本上说是一个用户操作，如按键、点击、鼠标移动等等，或者是一些出现，如系统生成的通知。应用程序需要在事件发生时响应事件。例如，中断。事件是用于进程间通信。
+
